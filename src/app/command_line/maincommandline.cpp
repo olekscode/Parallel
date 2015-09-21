@@ -123,6 +123,11 @@ void MainCommandLine::getFromHistory(int index)
     this->insertHtml(command);
 }
 
+void MainCommandLine::execute(Function *func)
+{
+    (*func)();
+}
+
 void MainCommandLine::keyPressEvent(QKeyEvent *e)
 {
     scrollDown();

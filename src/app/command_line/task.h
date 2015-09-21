@@ -12,6 +12,7 @@ class Task
     Command _cmd;
 
 public:
+    Task();
     Task(Command cmd);
 
     QString id() const;

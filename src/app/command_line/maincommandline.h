@@ -30,6 +30,8 @@ public slots:
 protected:
     virtual void keyPressEvent(QKeyEvent *e);
 
+    void execute(Function *func);
+
 private:
     void parse(QString text);
     void execute(Command cmd);

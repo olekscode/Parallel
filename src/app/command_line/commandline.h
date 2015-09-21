@@ -54,12 +54,14 @@ protected:
     virtual void contextMenuEvent(QContextMenuEvent *e);
 
     QString prompt() const;
+
     void scrollDown();
+
     void respond(Command cmd);
 
-private:
-    void execute(Command cmd);
+    virtual void execute(Function *func) = 0;
 
+private:
     void writeln(QString msg, QString color);
 
     void connectCLIOutputToCL(CommandLineInterface* cli) const;

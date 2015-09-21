@@ -13,6 +13,7 @@ public:
     TestFunctionsCLI()
     {
         commands.insert("factorial", new Factorial());
+        commands.insert("loop", new Loop());
     }
 
     TestFunctionsCLI(CommandLineInterface&);

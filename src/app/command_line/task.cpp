@@ -1,5 +1,9 @@
 #include "task.h"
 
+Task::Task()
+{
+}
+
 Task::Task(Command cmd)
     : _id(IdGenerator::generate()),
       _cmd(cmd)

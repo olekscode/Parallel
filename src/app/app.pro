@@ -17,11 +17,13 @@ TEMPLATE = app
 SOURCES += \
     main.cpp\
     idgenerator.cpp \
+    command_line/subclthread.cpp
 
 HEADERS  += \
     idgenerator.h \
     command_line/cli/cl_basic_functions/mainclfunctions.h \
-    command_line/cli/cl_basic_functions/mainclfunctionscli.h
+    command_line/cli/cl_basic_functions/mainclfunctionscli.h \
+    command_line/subclthread.h
 
 # Command Line
 SOURCES  += \

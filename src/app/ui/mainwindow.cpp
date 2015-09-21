@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle("Parallel 2.0");
+    setWindowTitle("Parallel");
 
     getNumOfCPUs();
     buildLayout();
@@ -56,7 +56,7 @@ void MainWindow::buildLayout()
 
     for (uint i = 0; i < numOfSubCLs; ++i) {
         subCL = new SubCommandLine(i, window);
-        subCL->setMinimumSize(350, 200);
+        subCL->setMinimumWidth(350);
         subCL->setMaximumWidth(400);
 
         subCL->addCLI(new TestFunctionsCLI());
@@ -79,8 +79,11 @@ void MainWindow::pushToQueue(Command cmd)
     Task task(cmd);
     tasks.push_back(task);
 
-    mainCL->msg_successful(QString("Command \"%0\" was pushed to queue.")
-                           .arg(cmd.name()));
+    mainCL->msg_successful(QString("Command \"%0\" was assigned to "
+                                   "a new task with id \"%1\" and "
+                                   "pushed to queue.")
+                           .arg(cmd.name())
+                           .arg(task.id()));
 }
 
 void MainWindow::runParallel()
@@ -90,16 +93,25 @@ void MainWindow::runParallel()
     uint n = subCLs.size();
     uint i = n;
 
-    while (i > 0 && !tasks.isEmpty()) {
-        subCLs[n - i--]->execute(tasks.front());
-        tasks.pop_back();
+    while (i > 0) {
+        passLastTaskFromQueue(n - i--);
     }
 }
 
 void MainWindow::passLastTaskFromQueue(uint subCmdIndex)
 {
-    subCLs[subCmdIndex]->execute(tasks.front());
+    if (tasks.isEmpty()) {
+        return;
+    }
+
+    Task t = tasks.front();
+    subCLs[subCmdIndex]->receive(t);
     tasks.pop_front();
+
+    mainCL->msg_successful(QString("Task \"%0\" was "
+                                   "passed to subCL[%1].")
+                           .arg(t.id())
+                           .arg(subCmdIndex));
 }
 
 void MainWindow::getNumOfCPUs()

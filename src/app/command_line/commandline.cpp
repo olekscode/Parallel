@@ -79,7 +79,7 @@ QString CommandLine::prompt() const
 }
 
 void CommandLine::respond(Command cmd)
-{   
+{
     QList<Function*> funcs;
 
     foreach (CommandLineInterface *c, clis) {
@@ -115,7 +115,7 @@ void CommandLine::respond(Command cmd)
     }
 
     func->passArguments(cmd.arguments());
-    (*func)();
+    execute(func);
 }
 
 void CommandLine::scrollDown()
