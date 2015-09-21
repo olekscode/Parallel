@@ -29,12 +29,6 @@ public:
         return res;
     }
 
-    QString description() const
-    {
-        return "Factorial. A well-known mathematical function with an "
-               "exponential complicity.";
-    }
-
     uint required_num_of_args() const
     {
         return 1;

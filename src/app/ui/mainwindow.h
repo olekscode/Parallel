@@ -10,6 +10,7 @@
 #include <QQueue>
 #include <QString>
 #include <QVariant>
+#include <QDebug>
 
 #include <unistd.h>
 
@@ -46,7 +47,8 @@ public:
     ~MainWindow();
 
 private slots:
-    void makeTaskAndPassIt(Command cmd);
+    void pushToQueue(Command cmd);
+    void runParallel();
     void passLastTaskFromQueue(uint subCLIndex);
 
 private:

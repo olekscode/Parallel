@@ -25,7 +25,6 @@ public:
         : argn(0) {}
 
     virtual QVariant operator() () = 0;
-    virtual QString description() const = 0;
     virtual uint required_num_of_args() const = 0;
 
     uint num_of_args() const
@@ -42,7 +41,6 @@ public:
 signals:
     void output_successful(QString text);
     void output_critical(QString text);
-    void passToSubCL(Command cmd);
 };
 
 Q_DECLARE_INTERFACE(Function, "Function")

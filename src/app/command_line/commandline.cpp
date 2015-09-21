@@ -9,8 +9,6 @@ CommandLine::CommandLine(QWidget *parent,
                         "color: %1;")
             .arg(COLOR_BACKGROUND)
             .arg(COLOR_TEXT));
-
-    addCLI(new CLBasicFunctionsCLI());
 }
 
 CommandLine::~CommandLine()
@@ -32,13 +30,6 @@ void CommandLine::connectCLIOutputToCL(CommandLineInterface* cli) const
                 SIGNAL(output_critical(QString)),
                 this,
                 SLOT(msg_critical(QString)));
-
-//        // TODO: Find a better way make this connection.
-//        // It's actually used by just one particular function
-//        connect(func,
-//                SIGNAL(request_other_window(QString)),
-//                this,
-//                SLOT(pass_request_for_other_window(QString)));
     }
 }
 
@@ -86,36 +77,6 @@ QString CommandLine::prompt() const
             + _prompt_id
             + "~$ </div>";
 }
-
-//void CommandLine::parse(QString text)
-//{
-//    int firstSemicolonPos;
-
-//    if (!text.isEmpty()) {
-//        firstSemicolonPos = text.indexOf(";");
-
-//        QString firstStatement = text.left(firstSemicolonPos);
-//        QStringList words = firstStatement.split(" ");
-
-//        Command firstCmd;
-//        firstCmd.setName(words.first());
-
-//        words.removeFirst();
-//        firstCmd.setArguments(words);
-
-//        respond(firstCmd);
-//    }
-
-//    askForInput();
-
-//    if (text.contains(";")) {
-//        int sizeOfTheRest = text.size() - firstSemicolonPos - 1;
-
-//        if (sizeOfTheRest > 0) {
-//            autoInput(text.right(sizeOfTheRest));
-//        }
-//    }
-//}
 
 void CommandLine::respond(Command cmd)
 {   

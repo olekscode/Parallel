@@ -15,7 +15,7 @@
 
 #include "command.h"
 #include "cli/commandlineinterface.h"
-#include "cli/cl_basic_functions/clbasicfunctionscli.h"
+#include "cli/main_cl_functions/mainclfunctionscli.h"
 
 #define COLOR_BACKGROUND "#272822"
 #define COLOR_TEXT "#C0C0C0"
@@ -58,7 +58,6 @@ protected:
     void respond(Command cmd);
 
 private:
-//    void parse(QString text);
     void execute(Command cmd);
 
     void writeln(QString msg, QString color);

@@ -1,11 +1,15 @@
 #ifndef SUBCOMMANDLINE_H
 #define SUBCOMMANDLINE_H
 
+#include <QDebug>
+
 #include "commandline.h"
 #include "task.h"
 
 class SubCommandLine : public CommandLine
 {
+    Q_OBJECT
+
     uint _index;
 
 public:

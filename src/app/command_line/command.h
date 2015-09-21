@@ -10,6 +10,7 @@ class Command
     QStringList _args;
 
 public:
+    Command();
     Command(QString text);
     Command(QStringList words);
 

@@ -2,6 +2,8 @@
 #define MAINCOMMANDLINE_H
 
 #include "commandline.h"
+#include "cli/main_cl_functions/mainclfunctions.h"
+#include "cli/main_cl_functions/mainclfunctionscli.h"
 
 class MainCommandLine : public CommandLine
 {
@@ -18,21 +20,22 @@ public:
     ~MainCommandLine();
 
 signals:
-    void request_other_window(QString text);
+    void pushToQueue(Command cmd);
+    void runParallel();
 
 public slots:
-    void pass_request_for_other_window(QString text);
+    void emitPushToQueue(Command cmd);
+    void emitRunParallel();
 
 protected:
     virtual void keyPressEvent(QKeyEvent *e);
 
 private:
-//    void parse(QString text);
-//    void respond(Command cmd);
+    void parse(QString text);
     void execute(Command cmd);
 
     void askForInput();
-//    void autoInput(QString text);
+    void autoInput(QString text);
 
     void addToHistory(QString cmd);
     void getFromHistory(int index);

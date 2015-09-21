@@ -18,9 +18,14 @@ MainWindow::MainWindow(QWidget *parent) :
     mainCL->addCLI(new TestFunctionsCLI());
 
     connect(mainCL,
-            SIGNAL(request_other_window(Command)),
+            SIGNAL(pushToQueue(Command)),
             this,
-            SLOT(makeTaskAndPassIt(Command)));
+            SLOT(pushToQueue(Command)));
+
+    connect(mainCL,
+            SIGNAL(runParallel()),
+            this,
+            SLOT(runParallel()));
 }
 
 MainWindow::~MainWindow()
@@ -54,6 +59,8 @@ void MainWindow::buildLayout()
         subCL->setMinimumSize(350, 200);
         subCL->setMaximumWidth(400);
 
+        subCL->addCLI(new TestFunctionsCLI());
+
         connect(subCL,
                 SIGNAL(wasReleased(uint)),
                 this,
@@ -67,20 +74,26 @@ void MainWindow::buildLayout()
     this->setCentralWidget(window);
 }
 
-void MainWindow::makeTaskAndPassIt(Command cmd)
+void MainWindow::pushToQueue(Command cmd)
 {
     Task task(cmd);
-
-    // TODO: Optimize this
-    if (tasks.isEmpty()) {
-        foreach (SubCommandLine *cl, subCLs) {
-            if (cl->isFree()) {
-                cl->execute(task);
-                return;
-            }
-        }
-    }
     tasks.push_back(task);
+
+    mainCL->msg_successful(QString("Command \"%0\" was pushed to queue.")
+                           .arg(cmd.name()));
+}
+
+void MainWindow::runParallel()
+{
+    // TODO: Check if subCLs are free
+
+    uint n = subCLs.size();
+    uint i = n;
+
+    while (i > 0 && !tasks.isEmpty()) {
+        subCLs[n - i--]->execute(tasks.front());
+        tasks.pop_back();
+    }
 }
 
 void MainWindow::passLastTaskFromQueue(uint subCmdIndex)

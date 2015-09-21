@@ -6,6 +6,21 @@ MainCommandLine::MainCommandLine(QString prompt_id,
       command(""),
       history_index(-1)
 {
+    MainCLFunctionsCLI *cli = new MainCLFunctionsCLI();
+    addCLI(cli);
+
+    // TODO: Replace these with proper connections
+
+    connect(cli->func_ptr("push"),
+            SIGNAL(pushToQueue(Command)),
+            this,
+            SLOT(emitPushToQueue(Command)));
+
+    connect(cli->func_ptr("runp"),
+            SIGNAL(runParallel()),
+            this,
+            SLOT(emitRunParallel()));
+
     askForInput();
 }
 
@@ -13,15 +28,15 @@ MainCommandLine::~MainCommandLine()
 {
 }
 
-//void MainCommandLine::autoInput(QString text)
-//{
-//    addToHistory(text);
+void MainCommandLine::autoInput(QString text)
+{
+    addToHistory(text);
 
-//    askForInput();
-//    this->insertHtml(text + "<br />");
+    askForInput();
+    this->insertHtml(text + "<br />");
 
-//    parse(text);
-//}
+    parse(text);
+}
 
 void MainCommandLine::askForInput()
 {
@@ -29,75 +44,59 @@ void MainCommandLine::askForInput()
     scrollDown();
 }
 
-//void MainCommandLine::parse(QString text)
-//{
-//    int firstSemicolonPos;
+void MainCommandLine::parse(QString text)
+{
+    int firstSemicolonPos;
 
-//    if (!text.isEmpty()) {
-//        firstSemicolonPos = text.indexOf(";");
+    if (!text.isEmpty()) {
+        firstSemicolonPos = text.indexOf(";");
 
-//        QString firstStatement = text.left(firstSemicolonPos);
-//        QStringList words = firstStatement.split(" ");
+        QString firstStatement = text.left(firstSemicolonPos);
+        QStringList words = firstStatement.split(" ");
 
-//        Command firstCmd;
-//        firstCmd.setName(words.first());
+        Command firstCmd;
 
-//        words.removeFirst();
-//        firstCmd.setArguments(words);
+//        if (words[0] == ">>") {
+//            words.removeFirst();
+//            firstCmd.setName(words.first());
 
-//        respond(firstCmd);
-//    }
+//            words.removeFirst();
+//            firstCmd.setArguments(words);
 
-//    askForInput();
-
-//    if (text.contains(";")) {
-//        int sizeOfTheRest = text.size() - firstSemicolonPos - 1;
-
-//        if (sizeOfTheRest > 0) {
-//            autoInput(text.right(sizeOfTheRest));
+//            emit passToSubCL(firstCmd);
+//            msg_successful(QString("Command \"%0\" was passed to MainWindow")
+//                           .arg(firstCmd.name()));
 //        }
-//    }
-//}
+//        else {
+            firstCmd.setName(words.first());
 
-//void MainCommandLine::respond(Command cmd)
-//{
-//    QList<Function*> funcs;
+            words.removeFirst();
+            firstCmd.setArguments(words);
 
-//    foreach (CommandLineInterface *c, clis) {
-//        if (c->isThere(cmd.name())) {
-//            funcs.append(c->func_ptr(cmd.name()));
+            respond(firstCmd);
 //        }
-//    }
+    }
 
-//    switch (funcs.size()) {
-//    case 0:
-//        msg_critical(QString("ERROR: Command \"%0\" was not found")
-//                     .arg(cmd.name()));
-//        return;
+    askForInput();
 
-//    case 1: break;
+    if (text.contains(";")) {
+        int sizeOfTheRest = text.size() - firstSemicolonPos - 1;
 
-//    default:
-//        msg_critical(QString("ERROR: There is more then one instance of command \"%0\"")
-//                     .arg(cmd.name()));
-//        return;
-//    }
+        if (sizeOfTheRest > 0) {
+            autoInput(text.right(sizeOfTheRest));
+        }
+    }
+}
 
-//    Function* func = funcs[0];
+void MainCommandLine::emitPushToQueue(Command cmd)
+{
+    emit pushToQueue(cmd);
+}
 
-//    uint num_required = func->required_num_of_args();
-
-//    if (num_required > (uint) cmd.arguments().size()) {
-//        msg_critical(QString("ERROR: Command \"%0\" requires at least %1 %2")
-//                     .arg(cmd.name())
-//                     .arg(num_required)
-//                     .arg(num_required == 1 ? "argument" : "arguments"));
-//        return;
-//    }
-
-//    func->passArguments(cmd.arguments());
-//    (*func)();
-//}
+void MainCommandLine::emitRunParallel()
+{
+    emit runParallel();
+}
 
 void MainCommandLine::addToHistory(QString cmd)
 {
@@ -122,11 +121,6 @@ void MainCommandLine::getFromHistory(int index)
 {
     command = history[index];
     this->insertHtml(command);
-}
-
-void MainCommandLine::pass_request_for_other_window(QString text)
-{
-    emit request_other_window(text);
 }
 
 void MainCommandLine::keyPressEvent(QKeyEvent *e)
@@ -185,8 +179,7 @@ void MainCommandLine::keyPressEvent(QKeyEvent *e)
             this->setTextCursor(cursor);
         }
 
-        respond(Command(command));
-        askForInput();
+        parse(command);
         command = "";
         break;
 

@@ -1,5 +1,10 @@
 #include "command.h"
 
+Command::Command()
+    : _name("UNDEFINED")
+{
+}
+
 Command::Command(QString text)
 {
     QStringList words = text.split(" ");

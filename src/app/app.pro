@@ -20,6 +20,8 @@ SOURCES += \
 
 HEADERS  += \
     idgenerator.h \
+    command_line/cli/cl_basic_functions/mainclfunctions.h \
+    command_line/cli/cl_basic_functions/mainclfunctionscli.h
 
 # Command Line
 SOURCES  += \
@@ -35,8 +37,8 @@ HEADERS  += \
     command_line/command.h \
     command_line/cli/commandlineinterface.h \
     command_line/cli/function.h \
-    command_line/cli/cl_basic_functions/clbasicfunctions.h \
-    command_line/cli/cl_basic_functions/clbasicfunctionscli.h \
+    command_line/cli/main_cl_functions/mainclfunctions.h \
+    command_line/cli/main_cl_functions/mainclfunctionscli.h \
     command_line/cli/test_functions/testfunctions.h \
     command_line/cli/test_functions/testfunctionscli.h \
     command_line/maincommandline.h \
