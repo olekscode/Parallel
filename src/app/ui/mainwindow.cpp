@@ -148,7 +148,7 @@ void MainWindow::passLastTaskFromQueue(uint subCmdIndex)
 
 void MainWindow::getNumOfCPUs()
 {
-#ifdef __WIN32
+#ifdef _WIN32
     SYSTEM_INFO sysinfo;
     GetSystemInfo(&sysinfo);
 

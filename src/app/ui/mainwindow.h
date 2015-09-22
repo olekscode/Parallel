@@ -11,7 +11,11 @@
 #include <QVariant>
 #include <QDebug>
 
-#include <unistd.h>
+#ifdef _WIN32
+    #include <windows.h>
+#elif __linux
+    #include <unistd.h>
+#endif
 
 #include "../command_line/cli/test_functions/testfunctionscli.h"
 #include "../command_line//maincommandline.h"
