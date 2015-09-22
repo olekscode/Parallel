@@ -10,6 +10,7 @@
 #include <QString>
 #include <QVariant>
 #include <QDebug>
+#include <QMutex>
 
 #ifdef _WIN32
     #include <windows.h>
@@ -38,6 +39,8 @@ class MainWindow : public QMainWindow
 
     MainCommandLine *mainCL;
     QVector<SubCommandLine *> subCLs;
+
+    QMutex *guiMutex;
 
 public:
     explicit MainWindow(QWidget *parent = 0);

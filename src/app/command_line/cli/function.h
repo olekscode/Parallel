@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QObject>
 #include <QThread>
+#include <QMutex>
 
 #include "../command.h"
 
@@ -19,6 +20,7 @@ class Function : public QObject
 protected:
     uint argn;
     QStringList args;
+    QMutex *guiMutex;
 
 public:
     Function()
@@ -36,6 +38,13 @@ public:
     {
         args = arglist;
         argn = args.size();
+    }
+
+    // TODO: Come up with a more "clean" way to pass
+    //       guiMutex to all the functions
+    void setGUIMutex(QMutex *mutex)
+    {
+        guiMutex = mutex;
     }
 
 signals:

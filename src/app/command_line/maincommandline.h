@@ -15,6 +15,7 @@ class MainCommandLine : public CommandLine
 
 public:
     MainCommandLine(QString prompt_id,
+                    QMutex *mutex,
                     QWidget *parent = 0);
 
     ~MainCommandLine();

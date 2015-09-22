@@ -1,8 +1,9 @@
 #include "maincommandline.h"
 
 MainCommandLine::MainCommandLine(QString prompt_id,
+                                 QMutex *mutex,
                                  QWidget *parent)
-    : CommandLine(parent, prompt_id),
+    : CommandLine(mutex, parent, prompt_id),
       command(""),
       history_index(-1)
 {

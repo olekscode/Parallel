@@ -11,6 +11,7 @@
 #include <QHash>
 #include <QList>
 #include <QScrollBar>
+#include <QMutex>
 #include <QDebug>
 
 #include "command.h"
@@ -27,10 +28,12 @@ class CommandLine : public QTextEdit
 protected:
     ColorScheme *colorScheme;
     QString _prompt_id;
+    QMutex *guiMutex;
     QList<CommandLineInterface*> clis;
 
 public:
-    CommandLine(QWidget *parent = 0,
+    CommandLine(QMutex *mutex,
+                QWidget *parent = 0,
                 QString prompt_id = "UNDEFINED");
 
     ~CommandLine();

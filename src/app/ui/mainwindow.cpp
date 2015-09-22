@@ -42,6 +42,7 @@ void MainWindow::buildLayout()
     uint numOfSubCLs = numOfCPUs - 1;
 
     mainCL = new MainCommandLine(this->windowTitle(),
+                                 guiMutex,
                                  window);
 
     mainCL->setMinimumSize(500, 600);
@@ -53,7 +54,10 @@ void MainWindow::buildLayout()
     SubCommandLine *subCL;
 
     for (uint i = 0; i < numOfSubCLs; ++i) {
-        subCL = new SubCommandLine(i, window);
+        subCL = new SubCommandLine(i,
+                                   guiMutex,
+                                   window);
+
         subCL->setMinimumWidth(350);
         subCL->setMaximumWidth(350);
 

@@ -1,8 +1,10 @@
 #include "commandline.h"
 
-CommandLine::CommandLine(QWidget *parent,
+CommandLine::CommandLine(QMutex *mutex,
+                         QWidget *parent,
                          QString prompt_id)
-    : QTextEdit(parent),
+    : guiMutex(mutex),
+      QTextEdit(parent),
       _prompt_id(prompt_id)
 {
 }
@@ -26,6 +28,8 @@ void CommandLine::connectCLIOutputToCL(CommandLineInterface* cli) const
                 SIGNAL(output_critical(QString)),
                 this,
                 SLOT(msg_critical(QString)));
+
+        func->setGUIMutex(guiMutex);
     }
 }
 

@@ -1,7 +1,9 @@
 #include "subcommandline.h"
 
-SubCommandLine::SubCommandLine(uint index, QWidget *parent)
-    : CommandLine(parent),
+SubCommandLine::SubCommandLine(uint index,
+                               QMutex *mutex,
+                               QWidget *parent)
+    : CommandLine(mutex, parent),
       _index(index)
 {
     this->setReadOnly(true);
