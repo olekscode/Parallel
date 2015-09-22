@@ -33,9 +33,12 @@ signals:
 
 public slots:
     void emitWasReleased();
+    void msg_successful(QString msg);
+    void msg_critical(QString msg);
 
 protected:
     void execute(Function *func);
+    QString promptEnding() const;
 };
 
 #endif // SUBCOMMANDLINE_H

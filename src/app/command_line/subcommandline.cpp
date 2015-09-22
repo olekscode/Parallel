@@ -54,3 +54,20 @@ void SubCommandLine::emitWasReleased()
 {
     emit wasReleased(_index);
 }
+
+void SubCommandLine::msg_successful(QString msg)
+{
+    this->insertHtml(prompt());
+    writeln(msg, colorScheme->responseSuccessful());
+}
+
+void SubCommandLine::msg_critical(QString msg)
+{
+    this->insertHtml(prompt());
+    writeln(msg, colorScheme->responseCritical());
+}
+
+QString SubCommandLine::promptEnding() const
+{
+    return ":";
+}

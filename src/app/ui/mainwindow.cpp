@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     buildLayout();
 
     mainCL->addCLI(new TestFunctionsCLI());
+    mainCL->addCLI(new CalculatePiCLI());
 
     connect(mainCL,
             SIGNAL(pushToQueue(Command)),
@@ -57,6 +58,7 @@ void MainWindow::buildLayout()
         subCL->setMaximumWidth(350);
 
         subCL->addCLI(new TestFunctionsCLI());
+        subCL->addCLI(new CalculatePiCLI());
 
         connect(subCL,
                 SIGNAL(wasReleased(uint)),

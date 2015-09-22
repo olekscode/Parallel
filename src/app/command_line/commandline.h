@@ -24,9 +24,8 @@ class CommandLine : public QTextEdit
 {
     Q_OBJECT
 
-    ColorScheme *colorScheme;
-
 protected:
+    ColorScheme *colorScheme;
     QString _prompt_id;
     QList<CommandLineInterface*> clis;
 
@@ -41,8 +40,8 @@ public:
     QList<CommandLineInterface*> commandLineInterfaces() const;
 
 public slots:    
-    void msg_successful(QString msg);
-    void msg_critical(QString msg);
+    virtual void msg_successful(QString msg);
+    virtual void msg_critical(QString msg);
 
     void setColorScheme(ColorScheme *cs);
 
@@ -54,15 +53,15 @@ protected:
 
     QString prompt() const;
 
+    // TODO: Move this to MainCL
+    virtual QString promptEnding() const;
+
     void scrollDown();
-
     void respond(Command cmd);
-
     virtual void execute(Function *func) = 0;
-
-private:
     void writeln(QString msg, QString color);
 
+private:
     void connectCLIOutputToCL(CommandLineInterface* cli) const;
 };
 

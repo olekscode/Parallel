@@ -44,7 +44,7 @@ public:
 
     QString background() const          { return "#272822"; }
     QString text() const                { return "#C0C0C0"; }
-    QString prompt() const              { return "#99CCFF"; }
+    QString prompt() const              { return "#FFFFFF"; }
     QString responseSuccessful() const  { return "#99FFCC"; }
     QString responseCritical() const    { return "#FF5050"; }
 };

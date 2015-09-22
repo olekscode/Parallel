@@ -18,6 +18,7 @@
 #endif
 
 #include "../command_line/cli/test_functions/testfunctionscli.h"
+#include "../command_line/cli/calculate_pi/calculatepicli.h"
 #include "../command_line//maincommandline.h"
 #include "../command_line//task.h"
 #include "../command_line/subcommandline.h"

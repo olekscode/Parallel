@@ -24,7 +24,9 @@ HEADERS  += \
     command_line/cli/cl_basic_functions/mainclfunctions.h \
     command_line/cli/cl_basic_functions/mainclfunctionscli.h \
     command_line/subclthread.h \
-    command_line/colorscheme.h
+    command_line/colorscheme.h \
+    command_line/cli/calculate_pi/calculatepi.h \
+    command_line/cli/calculate_pi/calculatepicli.h
 
 # Command Line
 SOURCES  += \

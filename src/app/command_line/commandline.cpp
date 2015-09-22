@@ -81,7 +81,13 @@ QString CommandLine::prompt() const
                    "color: %0;"
                    "\">").arg(colorScheme->prompt())
             + _prompt_id
-            + "~$ </div>";
+            + QString("%0 </div>")
+            .arg(promptEnding());
+}
+
+QString CommandLine::promptEnding() const
+{
+    return "~$";
 }
 
 void CommandLine::respond(Command cmd)
