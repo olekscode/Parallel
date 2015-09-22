@@ -12,9 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
     getNumOfCPUs();
     buildLayout();
 
-//    ThreadTableModel *tableModel = new ThreadTableModel(0);
-//    ui->threadTableView->setModel(tableModel);
-
     mainCL->addCLI(new TestFunctionsCLI());
 
     connect(mainCL,
@@ -26,6 +23,11 @@ MainWindow::MainWindow(QWidget *parent) :
             SIGNAL(runParallel()),
             this,
             SLOT(runParallel()));
+
+    connect(mainCL,
+            SIGNAL(terminate(QString)),
+            this,
+            SLOT(terminate(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -38,26 +40,21 @@ void MainWindow::buildLayout()
     QWidget *window = new QWidget(this);
     uint numOfSubCLs = numOfCPUs - 1;
 
-    threadingTable = new QTableView(window);
-    threadingTable->setMinimumWidth(200);
-    threadingTable->setMaximumWidth(200);
-
     mainCL = new MainCommandLine(this->windowTitle(),
                                  window);
 
-    mainCL->setMinimumSize(350, 300);
-    //mainCommandLine->setMaximumWidth(500);
+    mainCL->setMinimumSize(500, 600);
+    //mainCL->setMaximumWidth(800);
 
     QGridLayout *layout = new QGridLayout(window);
-    layout->addWidget(threadingTable, 0, 0, numOfSubCLs, 1);
-    layout->addWidget(mainCL, 0, 1, numOfSubCLs, 1);
+    layout->addWidget(mainCL, 0, 0, numOfSubCLs, 1);
 
     SubCommandLine *subCL;
 
     for (uint i = 0; i < numOfSubCLs; ++i) {
         subCL = new SubCommandLine(i, window);
         subCL->setMinimumWidth(350);
-        subCL->setMaximumWidth(400);
+        subCL->setMaximumWidth(350);
 
         subCL->addCLI(new TestFunctionsCLI());
 
@@ -67,7 +64,7 @@ void MainWindow::buildLayout()
                 SLOT(passLastTaskFromQueue(uint)));
 
         subCLs.append(subCL);
-        layout->addWidget(subCL, i, 2);
+        layout->addWidget(subCL, i, 1);
     }
 
     window->setLayout(layout);
@@ -95,6 +92,41 @@ void MainWindow::runParallel()
 
     while (i > 0) {
         passLastTaskFromQueue(n - i--);
+    }
+}
+
+void MainWindow::terminate(QString id)
+{
+    if (id == "all") {
+        bool thereWereActive = false;
+
+        foreach (SubCommandLine *scl, subCLs) {
+            if (scl->thread.isRunning()) {
+                thereWereActive = true;
+                scl->thread.terminate();
+            }
+        }
+        if (thereWereActive) {
+            mainCL->msg_successful("All threads were terminated.");
+        }
+        else {
+            mainCL->msg_successful("There are no active threads.");
+        }
+    }
+    else {
+        foreach (SubCommandLine *scl, subCLs) {
+            if (scl->currTaskId() == id) {
+                scl->thread.terminate();
+
+                mainCL->msg_successful(QString("Thread #%0 was terminated "
+                                               "while working on task \"%1\".")
+                                       .arg(scl->index())
+                                       .arg(id));
+                return;
+            }
+        }
+        mainCL->msg_successful(QString("No thread is working on task \"%0\".")
+                               .arg(id));
     }
 }
 

@@ -5,10 +5,6 @@ CommandLine::CommandLine(QWidget *parent,
     : QTextEdit(parent),
       _prompt_id(prompt_id)
 {
-    this->setStyleSheet(QString("background-color: %0;"
-                        "color: %1;")
-            .arg(COLOR_BACKGROUND)
-            .arg(COLOR_TEXT));
 }
 
 CommandLine::~CommandLine()
@@ -49,12 +45,22 @@ void CommandLine::writeln(QString msg, QString color)
 
 void CommandLine::msg_successful(QString msg)
 {
-    writeln(msg, COLOR_RESPONSE_SUCCESSFUL);
+    writeln(msg, colorScheme->responseSuccessful());
 }
 
 void CommandLine::msg_critical(QString msg)
 {
-    writeln(msg, COLOR_RESPONSE_CRITICAL);
+    writeln(msg, colorScheme->responseCritical());
+}
+
+void CommandLine::setColorScheme(ColorScheme *cs)
+{
+    colorScheme = cs;
+
+    this->setStyleSheet(QString("background-color: %0;"
+                        "color: %1;")
+            .arg(colorScheme->background())
+            .arg(colorScheme->text()));
 }
 
 void CommandLine::addCLI(CommandLineInterface *cli)
@@ -73,7 +79,7 @@ QString CommandLine::prompt() const
     return QString("<div style=\""
                    "font-weight: bold;"
                    "color: %0;"
-                   "\">").arg(COLOR_PROMPT)
+                   "\">").arg(colorScheme->prompt())
             + _prompt_id
             + "~$ </div>";
 }

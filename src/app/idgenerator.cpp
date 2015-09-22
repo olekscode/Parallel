@@ -1,6 +1,6 @@
 #include "idgenerator.h"
 
-int IdGenerator::counter = 0;
+int IdGenerator::counter = 1;
 IdGenerator* IdGenerator::_instance = nullptr;
 
 IdGenerator::IdGenerator()
@@ -17,7 +17,7 @@ IdGenerator* IdGenerator::Instance()
 
 QString IdGenerator::generate()
 {
-    QString id = "T";
+    QString id = "PT";
 
     if (counter / 10 == 0) {
         id += "00";
@@ -30,6 +30,6 @@ QString IdGenerator::generate()
         throw "Error";
     }
 
-    id += QString::number(++counter);
+    id += QString::number(counter++);
     return id;
 }

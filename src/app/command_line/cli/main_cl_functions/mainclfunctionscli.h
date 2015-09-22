@@ -14,6 +14,7 @@ public:
     {
         commands.insert("push", new Push());
         commands.insert("runp", new RunParallel());
+        commands.insert("terminate", new Terminate());
     }
 };
 

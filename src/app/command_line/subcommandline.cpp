@@ -6,6 +6,8 @@ SubCommandLine::SubCommandLine(uint index, QWidget *parent)
 {
     this->setReadOnly(true);
 
+    setColorScheme(new SubCLColorScheme(this));
+
     connect(&thread,
             SIGNAL(finished()),
             this,
@@ -14,6 +16,16 @@ SubCommandLine::SubCommandLine(uint index, QWidget *parent)
 
 SubCommandLine::~SubCommandLine()
 {
+}
+
+uint SubCommandLine::index() const
+{
+    return _index;
+}
+
+QString SubCommandLine::currTaskId() const
+{
+    return _curr_task_id;
 }
 
 bool SubCommandLine::isFree() const
@@ -25,7 +37,10 @@ bool SubCommandLine::isFree() const
 void SubCommandLine::receive(Task task)
 {
     // TODO: Use QThread here
-    _prompt_id = task.id();
+    // TODO: Replace _prompt_id with an abstract method
+
+    _prompt_id = _curr_task_id = task.id();
+
     respond(task.command());
 }
 

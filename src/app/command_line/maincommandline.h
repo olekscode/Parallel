@@ -22,10 +22,12 @@ public:
 signals:
     void pushToQueue(Command cmd);
     void runParallel();
+    void terminate(QString id);
 
 public slots:
     void emitPushToQueue(Command cmd);
     void emitRunParallel();
+    void emitTerminate(QString id);
 
 protected:
     virtual void keyPressEvent(QKeyEvent *e);

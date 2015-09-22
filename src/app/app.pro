@@ -23,7 +23,8 @@ HEADERS  += \
     idgenerator.h \
     command_line/cli/cl_basic_functions/mainclfunctions.h \
     command_line/cli/cl_basic_functions/mainclfunctionscli.h \
-    command_line/subclthread.h
+    command_line/subclthread.h \
+    command_line/colorscheme.h
 
 # Command Line
 SOURCES  += \
@@ -50,13 +51,9 @@ HEADERS  += \
 # Application UI
 SOURCES  += \
     ui/mainwindow.cpp \
-    ui/threadtablemodel.cpp \
-    ui/threadtablecontroller.cpp \
 
 HEADERS  += \
     ui/mainwindow.h \
-    ui/threadtablemodel.h \
-    ui/threadtablecontroller.h \
 
 FORMS    += \
     ui/mainwindow.ui \

@@ -14,20 +14,17 @@
 #include <QDebug>
 
 #include "command.h"
+#include "colorscheme.h"
 #include "cli/commandlineinterface.h"
 #include "cli/main_cl_functions/mainclfunctionscli.h"
-
-#define COLOR_BACKGROUND "#272822"
-#define COLOR_TEXT "#C0C0C0"
-#define COLOR_PROMPT "#99CCFF"
-#define COLOR_RESPONSE_SUCCESSFUL "#99FF66"
-#define COLOR_RESPONSE_CRITICAL "#FF5050"
 
 #define HISTORY_SIZE 30
 
 class CommandLine : public QTextEdit
 {
     Q_OBJECT
+
+    ColorScheme *colorScheme;
 
 protected:
     QString _prompt_id;
@@ -46,6 +43,8 @@ public:
 public slots:    
     void msg_successful(QString msg);
     void msg_critical(QString msg);
+
+    void setColorScheme(ColorScheme *cs);
 
 protected:
     virtual void keyPressEvent(QKeyEvent *e);

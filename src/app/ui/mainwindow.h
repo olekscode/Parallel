@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QGridLayout>
-#include <QTableView>
 #include <QTextEdit>
 #include <QWidget>
 
@@ -13,11 +12,6 @@
 #include <QDebug>
 
 #include <unistd.h>
-
-#include "threadtablemodel.h"
-
-// Remove
-#include "../command_line/cli/function.h"
 
 #include "../command_line/cli/test_functions/testfunctionscli.h"
 #include "../command_line//maincommandline.h"
@@ -37,7 +31,6 @@ class MainWindow : public QMainWindow
     QQueue<Task> tasks;
     uint numOfCPUs;
 
-    QTableView *threadingTable;
     MainCommandLine *mainCL;
     QVector<SubCommandLine *> subCLs;
 
@@ -50,6 +43,7 @@ private slots:
     void pushToQueue(Command cmd);
     void runParallel();
     void passLastTaskFromQueue(uint subCLIndex);
+    void terminate(QString id);
 
 private:
     // Detects the number of cores on the machine

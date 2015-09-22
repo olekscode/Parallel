@@ -11,8 +11,6 @@ class Factorial : public Function
     Q_INTERFACES(Function)
 
 public:
-    //Factorial() {}
-
     QVariant operator() ()
     {
         // TODO: Throw an exception if arguments were not passed
@@ -44,14 +42,27 @@ public:
     QVariant operator() ()
     {
         int steps = QString(args[0]).toInt();
-        int percent = (steps > 100) ? steps / 100 : steps;
+
+        // TODO: Come up with a better statement for a case when steps <= 100
+        int percent = (steps > 100) ? steps / 100 : 1;
+        QString output = "Loop [%0]%1%2%";
+        QString spaces = QString();
 
         for (int i = 1; i <= steps; ++i) {
             if (i % percent == 0) {
                 thread()->sleep(1);
-                emit output_successful(QString("Loop[%0]\t\t%1%")
+
+                for (int j = 0; j < 10 - QString::number(i).length(); ++j) {
+                    spaces += "&nbsp;-&nbsp;-";
+                }
+
+                emit output_successful(output
                                        .arg(i)
+                                       .arg(spaces)
                                        .arg(i / percent));
+                spaces.clear();
+                // TODO: Find a way to wake the thread up.
+                // HINT: QWaitCondition
             }
         }
         return QVariant();

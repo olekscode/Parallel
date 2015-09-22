@@ -6,6 +6,7 @@ MainCommandLine::MainCommandLine(QString prompt_id,
       command(""),
       history_index(-1)
 {
+    setColorScheme(new MainCLColorScheme(this));
     MainCLFunctionsCLI *cli = new MainCLFunctionsCLI();
     addCLI(cli);
 
@@ -20,6 +21,11 @@ MainCommandLine::MainCommandLine(QString prompt_id,
             SIGNAL(runParallel()),
             this,
             SLOT(emitRunParallel()));
+
+    connect(cli->func_ptr("terminate"),
+            SIGNAL(terminate(QString)),
+            this,
+            SLOT(emitTerminate(QString)));
 
     askForInput();
 }
@@ -96,6 +102,11 @@ void MainCommandLine::emitPushToQueue(Command cmd)
 void MainCommandLine::emitRunParallel()
 {
     emit runParallel();
+}
+
+void MainCommandLine::emitTerminate(QString id)
+{
+    emit terminate(id);
 }
 
 void MainCommandLine::addToHistory(QString cmd)
